@@ -8,24 +8,27 @@ setwd("C:/Users/kep/Documents/GitHub/taxbrackets")
 rm(list=ls())
 
 #Load Data
-cpi<-read.csv("cpitables.csv", header = TRUE, fill = TRUE, sep = ",")
+cpi<-read.csv("cpitables_projected.csv", header = TRUE, fill = TRUE, sep = ",", fileEncoding = "UTF-8-BOM")
 ##########################Consumer Price Index Calculations###########################
 
 
 #Calendar Year
 
-cpi$fiscalyear = NULL
-cpi$calendar<-rowMeans(cpi[,2:13], na.rm=TRUE)
+#cpi$fiscalyear = NULL
+#cpi$calendar<-rowMeans(cpi[,2:13], na.rm=TRUE)
 
 #Fiscal Year. Starting in FY1914. Do not have data on CY1912, so cannot complete FY 1913
 
-cpi$fiscalyear = NULL
-for (i in 2:length(cpi[,1])){
-  cpi$fiscalyear[i]<-sum(rowSums(cpi[i-1,10:13]),rowSums(cpi[i,2:9]))/12
-}
+#cpi$fiscalyear = NULL
+#for (i in 2:length(cpi[,1])){
+#  cpi$fiscalyear[i]<-sum(rowSums(cpi[i-1,10:13]),rowSums(cpi[i,2:9]))/12
+#}
+
+#write.csv(cpi, file="chainedcpitables_projected.csv", row.names=FALSE)
+
 
 #Reference Year (This sets the year to which you are adjusting)
-refyear<-2014
+refyear<-2018
 
 #####################Ordinary Income Tax Bracket calculations##########################
 
