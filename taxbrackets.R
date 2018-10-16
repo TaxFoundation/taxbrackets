@@ -8,7 +8,7 @@ setwd("C:/Users/kep/Documents/GitHub/taxbrackets")
 rm(list=ls())
 
 #Load Data
-cpi<-read.csv("cpitables_projected.csv", header = TRUE, fill = TRUE, sep = ",", fileEncoding = "UTF-8-BOM")
+cpi<-read.csv("cpi_all.csv", header = TRUE, fill = TRUE, sep = ",", fileEncoding = "UTF-8-BOM")
 ##########################Consumer Price Index Calculations###########################
 
 
@@ -28,7 +28,7 @@ cpi<-read.csv("cpitables_projected.csv", header = TRUE, fill = TRUE, sep = ",", 
 
 
 #Reference Year (This sets the year to which you are adjusting)
-refyear<-2018
+refyear<-2025
 
 #####################Ordinary Income Tax Bracket calculations##########################
 
@@ -70,24 +70,24 @@ refyear<-2018
 #Adjust Each bracket for inflation by its base year
 
   #1992 Base Year adjustments
-  baseyearmarried1992<-baseyearmarried1992*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1992])
-  baseyearsingle1992<-baseyearsingle1992*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1992])
-  baseyearheadofhousehold1992<-baseyearheadofhousehold1992*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1992])
+  baseyearmarried1992<-baseyearmarried1992*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1992])
+  baseyearsingle1992<-baseyearsingle1992*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1992])
+  baseyearheadofhousehold1992<-baseyearheadofhousehold1992*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1992])
 
   #1993 Base Year Adustments
-  baseyearmarried1993<-baseyearmarried1993*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1993])
-  baseyearheadofhousehold1993<-baseyearheadofhousehold1993*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1993])
-  baseyearsingle1993<-baseyearsingle1993*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1993])
+  baseyearmarried1993<-baseyearmarried1993*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1993])
+  baseyearheadofhousehold1993<-baseyearheadofhousehold1993*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1993])
+  baseyearsingle1993<-baseyearsingle1993*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1993])
 
   #2002 Base Year Adjustments
-  baseyearsingle2002<-baseyearsingle2002*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2002])
-  baseyearheadofhousehold2002<-baseyearheadofhousehold2002*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2002])
-  baseyearmarried2002<-baseyearmarried2002*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2002])
+  baseyearsingle2002<-baseyearsingle2002*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2002])
+  baseyearheadofhousehold2002<-baseyearheadofhousehold2002*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2002])
+  baseyearmarried2002<-baseyearmarried2002*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2002])
 
   #2012 Base Year Adjustments
-  baseyearsingle2012<-baseyearsingle2012*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2012])
-  baseyearheadofhousehold2012<-baseyearheadofhousehold2012*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2012])
-  baseyearmarried2012<-baseyearmarried2012*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2012])
+  baseyearsingle2012<-baseyearsingle2012*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2012])
+  baseyearheadofhousehold2012<-baseyearheadofhousehold2012*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2012])
+  baseyearmarried2012<-baseyearmarried2012*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2012])
 
 #Rounding Each base Year by IRS Method (Down to Nearest $50 for all brackets Except for 10% single bracket ($25))
 
@@ -124,8 +124,8 @@ refyear<-2018
   personalexemption<-2000
 
 #CPI adjustments (Base year for standard deduction: 1987, personal exemption: 1988)
-  standarddeduction<-standarddeduction*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1987])
-  personalexemption<-personalexemption*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1988])
+  standarddeduction<-standarddeduction*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1987])
+  personalexemption<-personalexemption*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1988])
 
 #Rounding to nearest 50
   standarddeduction<-standarddeduction-(standarddeduction%%50)
@@ -138,7 +138,7 @@ refyear<-2018
   names(PEPandPease)<-c("single","married","head of household")
 
 #CPI Adjustments. Base Year for PEP and Pease is 2012
-  PEPandPease<-PEPandPease*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2012])
+  PEPandPease<-PEPandPease*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2012])
 
 #Rounding to nearest 50
   PEPandPease<-PEPandPease-(PEPandPease%%50)
@@ -155,7 +155,7 @@ refyear<-2018
   names(AMT) = c("single","married")
 
 #CPI Adjustment for AMT (Base Year 2011)
-  AMT<-AMT*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2011])
+  AMT<-AMT*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2011])
 
 #Rounding (AMT is rounded to nearest $100, in either direction)
   AMT<-round(AMT, digits=-2)
@@ -175,14 +175,14 @@ refyear<-2018
   rownames(EITCIncomeSingle) = c("No Children","One Child","2 Children","3 or More Children")
 
 #Adjust for inflation
-  EITCIncomeSingle<-EITCIncomeSingle*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==1995])
+  EITCIncomeSingle<-EITCIncomeSingle*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==1995])
 
 #EITC Married Parameters (Original EITC did not adjust for marriage, this was later added)
 
   #Marriage Penalty Fix
   penalty<-5000
   #The Penalty fix has a 2008 base year
-  penalty<-penalty*(cpi$fiscalyear[cpi$Year==refyear]/cpi$fiscalyear[cpi$Year==2008])
+  penalty<-penalty*(cpi$ccpi[cpi$Year==refyear]/cpi$cpi_adjusted[cpi$Year==2008])
   #Round to nearest $10
   penalty<-round(penalty, digits= -1)
 
